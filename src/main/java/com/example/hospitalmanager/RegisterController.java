@@ -87,6 +87,10 @@ public class RegisterController implements Initializable {
     public void registerButtonOnAction(ActionEvent e) {
         registrationMessageLabel.setText("");
         confirmPasswordLabel.setText("");
+        if(!SecurityUtils.isValidEmail(emailField.getText())){
+            confirmPasswordLabel.setText("Invalid email format (name@domain.com).");
+            return;
+        }
         if (!checkEmpty()) {
             confirmPasswordLabel.setText("Please enter all details.");
             return;
@@ -99,6 +103,13 @@ public class RegisterController implements Initializable {
             confirmPasswordLabel.setText("This email is already registered.");
             return;
         }
+        String rawPassword = setPassword.getText();
+        String hashedPassword = SecurityUtils.HashPassword(rawPassword);
+        if(hashedPassword == null){
+            confirmPasswordLabel.setText("Error processing password.");
+            return;
+        }
+
         DataBaseConnection connection = new DataBaseConnection();
         Connection connectionDB = null;
         String insertUserSQL = "INSERT INTO user_account (firstname_user, lastname_user, email_user, password_user) VALUES (?, ?, ?, ?)";
@@ -110,7 +121,7 @@ public class RegisterController implements Initializable {
             psUser.setString(1, firstNameField.getText());
             psUser.setString(2, lastNameField.getText());
             psUser.setString(3, emailField.getText());
-            psUser.setString(4, setPassword.getText());
+            psUser.setString(4, hashedPassword);
             int affectedRows = psUser.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
