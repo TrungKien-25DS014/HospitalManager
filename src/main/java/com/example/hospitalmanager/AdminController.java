@@ -29,7 +29,9 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
 
 public class AdminController implements Initializable {
     @FXML
@@ -42,10 +44,15 @@ public class AdminController implements Initializable {
     private Label label;
     @FXML
     private VBox VBoxlistPatient;
+    @FXML Label detailNameLabel, detailIdLabel, detailRoleLabel, detailGenderLabel, detailDobLabel, detailNationalityLabel, detailCccdLabel, detailEthnicLabel, detailPhoneLabel, detailEmailLabel, detailAddressLabel, detailSpecialtyLabel, detailRankLabel, detailDepartmentLabel, detailLicenseLabel, detailInsuranceLabel, detailAllergyLabel;
     @FXML
     private BarChart<String, Number> monthlyChart;
     @FXML
     private BarChart<String, Number> yearlyChart;
+    @FXML private AnchorPane paneDetail;
+    @FXML private Button BtnBackFromDetail;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -59,9 +66,92 @@ public class AdminController implements Initializable {
         listPatientUI.setVisible(false);
         label.setText("Dashboard Overview");
 
+        paneDetail.setVisible(false);
+
         loadDoctorList();
         loadPatientList();
         loadDashboardData();
+    }
+
+    public void BtnBackFromDetailAction(ActionEvent event){
+        paneDetail.setVisible(false);
+        if (label.getText().equals("Doctor Management")) listDoctorUI.setVisible(true);
+        else if (label.getText().equals("Patient Management")) listPatientUI.setVisible(true);
+        else dashboardUI.setVisible(true);
+    }
+
+    private void showDoctorDetails(int doctorID){
+        String sql = "SELECT * FROM information_doctor I INNER JOIN doctor_account A on I.id_doctor = A.id_doctor WHERE A.id_doctor = ?";
+        try{
+            DataBaseConnection connection = new DataBaseConnection();
+            Connection connectionDB = connection.getConnection();
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, doctorID);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                listPatientUI.setVisible(false);
+                listDoctorUI.setVisible(false);
+                dashboardUI.setVisible(false);
+                paneDetail.setVisible(true);
+                detailNameLabel.setText(rs.getString("firstname_doctor") +" "+ rs.getString("lastname_doctor"));
+                detailIdLabel.setText("ID: " + rs.getInt("id_doctor"));
+                detailRoleLabel.setText("Doctor");
+                detailGenderLabel.setText(rs.getString("gender"));
+                detailDobLabel.setText("N/A");
+                detailNationalityLabel.setText(rs.getString("nationality"));
+                detailCccdLabel.setText(rs.getString("cccd"));
+                detailEthnicLabel.setText(rs.getString("ethnicgroup"));
+                detailPhoneLabel.setText(rs.getString("phone"));
+                detailEmailLabel.setText(rs.getString("email_doctor"));
+                detailAddressLabel.setText(rs.getString("address"));
+                detailSpecialtyLabel.setText(rs.getString("specialty"));
+                detailDepartmentLabel.setText(rs.getString("department"));
+                detailRankLabel.setText(rs.getString("rank"));
+                detailLicenseLabel.setText(rs.getString("licenseNo"));
+                detailInsuranceLabel.setText("N/A");
+                detailAllergyLabel.setText("N/A");
+
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void showPatientDetails(int doctorID){
+        String sql = "SELECT * FROM information_user I INNER JOIN user_account A ON I.id_user = A.id_user WHERE A.id_user = ?";
+        try{
+            DataBaseConnection connection = new DataBaseConnection();
+            Connection connectionDB = connection.getConnection();
+            PreparedStatement ps = connectionDB.prepareStatement(sql);
+            ps.setInt(1, doctorID);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                listPatientUI.setVisible(false);
+                listDoctorUI.setVisible(false);
+                dashboardUI.setVisible(false);
+                paneDetail.setVisible(true);
+                detailNameLabel.setText(rs.getString("firstname_user") +" "+ rs.getString("lastname_user"));
+                detailIdLabel.setText("ID: " + rs.getInt("id_user"));
+                detailRoleLabel.setText("Patient");
+                detailGenderLabel.setText(rs.getString("gender"));
+                detailDobLabel.setText("birthday");
+                detailNationalityLabel.setText("Viet Nam");
+                detailCccdLabel.setText(rs.getString("cccd"));
+                detailEthnicLabel.setText(rs.getString("ethnicGroup"));
+                detailPhoneLabel.setText(rs.getString("phone"));
+                detailEmailLabel.setText(rs.getString("email_user"));
+                detailAddressLabel.setText(rs.getString("address"));
+                detailSpecialtyLabel.setText("N/A");
+                detailDepartmentLabel.setText("N/A");
+                detailRankLabel.setText("N/A");
+                detailLicenseLabel.setText("N/A");
+                detailInsuranceLabel.setText(rs.getString("BHYT"));
+                detailAllergyLabel.setText(rs.getString("allergy"));
+
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void closeButtonOnAction(ActionEvent e) {
@@ -109,6 +199,9 @@ public class AdminController implements Initializable {
                 int accountID = rs.getInt("id_user");
                 String fullName = rs.getString("firstname_user" ) + " " +rs.getString("lastname_user");
                 HBox userEntry = createUserEntry(accountID, fullName);
+                userEntry.setOnMouseClicked(event -> {
+                    showPatientDetails(accountID);
+                });
                 VBoxlistPatient.getChildren().add(userEntry);
             }
         }catch(Exception e){
@@ -126,6 +219,9 @@ public class AdminController implements Initializable {
                 int accountID = rs.getInt("id_doctor");
                 String fullName = rs.getString("firstname_doctor" ) + " " +rs.getString("lastname_doctor");
                 HBox userEntry = createUserEntry(accountID, fullName);
+                userEntry.setOnMouseClicked(event -> {
+                    showDoctorDetails(accountID);
+                });
                 VBoxListDoctor.getChildren().add(userEntry);
             }
         }catch(Exception e){
@@ -231,19 +327,89 @@ public class AdminController implements Initializable {
     }
 
     public void loadDashboardData() {
+        loadYearlyData();
+        loadMonthlyData(2025);
+    }
+
+    private void loadMonthlyData(int year) {
+        monthlyChart.getData().clear();
+        DataBaseConnection connection = new DataBaseConnection();
+        Connection connectionDB = connection.getConnection();
+
         XYChart.Series<String, Number> seriesMonth = new XYChart.Series<>();
-        seriesMonth.setName("2025");
-        seriesMonth.getData().add(new XYChart.Data<>("Jan", 12000));
-        seriesMonth.getData().add(new XYChart.Data<>("Feb", 15000));
-        seriesMonth.getData().add(new XYChart.Data<>("Mar", 11000));
-        seriesMonth.getData().add(new XYChart.Data<>("Apr", 18500));
-        monthlyChart.getData().add(seriesMonth);
+        Map<Integer, Double> dataMapMonth = new TreeMap<>();
+        for (int i = 1; i <= 12; i++) {
+            dataMapMonth.put(i, 0.0);
+        }
+        seriesMonth.setName("Revenue 2025");
+        String monthSql = "SELECT MONTH(visitDate) as thang, sum(total_amount) as totalMonth FROM medical_records WHERE YEAR(visitDate) = ? GROUP BY MONTH(visitDate) ORDER BY thang ASC";
+        try{
+            PreparedStatement psMonth = connectionDB.prepareStatement(monthSql);
+            psMonth.setInt(1,year);
+            ResultSet rsMonth = psMonth.executeQuery();
+            while(rsMonth.next()){
+                int month = rsMonth.getInt("thang");
+                double revenue = rsMonth.getDouble("totalMonth");
+                if (dataMapMonth.containsKey(month)){
+                    dataMapMonth.put(month, revenue);
+                }
+            }
+            for(Map.Entry<Integer, Double> entry: dataMapMonth.entrySet()){
+                String yearString = String.valueOf(entry.getKey());
+                Number revenue = entry.getValue();
+                seriesMonth.getData().add(new XYChart.Data<>(yearString, revenue));
+            }
+            monthlyChart.getData().add(seriesMonth);
+            psMonth.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void loadYearlyData(){
+        DataBaseConnection connection = new DataBaseConnection();
+        Connection connectionDB = connection.getConnection();
 
         XYChart.Series<String, Number> seriesYear = new XYChart.Series<>();
-        seriesYear.setName("Total Revenue");
-        seriesYear.getData().add(new XYChart.Data<>("2023", 150000));
-        seriesYear.getData().add(new XYChart.Data<>("2024", 210000));
-        seriesYear.getData().add(new XYChart.Data<>("2025", 56500));
-        yearlyChart.getData().add(seriesYear);
+        Map<Integer, Double> dataMap = new TreeMap<>();
+        for (int i = 2025; i <= 2030; i++) {
+            dataMap.put(i, 0.0);
+        }
+        seriesYear.setName("2025-2030");
+        String YearSql = "SELECT YEAR(visitDate) as nam, sum(total_amount) as totalYear FROM medical_records WHERE YEAR(visitDate) BETWEEN 2025 AND 2030 GROUP BY YEAR(visitDate) ORDER BY nam ASC";
+        try{
+            PreparedStatement psYear = connectionDB.prepareStatement(YearSql);
+            ResultSet rsYear = psYear.executeQuery();
+
+            while(rsYear.next()){
+                int year = rsYear.getInt("nam");
+                double totalYear = rsYear.getDouble("totalYear");
+                if(dataMap.containsKey(year)){
+                    dataMap.put(year, totalYear);
+                }
+            }
+            for(Map.Entry<Integer, Double> entry : dataMap.entrySet()){
+                String yearString = String.valueOf(entry.getKey());
+                Number revenue = entry.getValue();
+                seriesYear.getData().add(new XYChart.Data<>(yearString, revenue));
+            }
+            yearlyChart.getData().add(seriesYear);
+            for(XYChart.Data<String, Number> data : seriesYear.getData()){
+                Node node = data.getNode();
+                if(node != null){
+                    node.setCursor(Cursor.HAND);
+                    node.setOnMouseClicked(e ->{
+                        String yearClick = data.getXValue();
+                        int yearChoosen = Integer.parseInt(yearClick);
+                        loadMonthlyData(yearChoosen);
+                    });
+                }
+            }
+            psYear.close();
+            connectionDB.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
+
 }
