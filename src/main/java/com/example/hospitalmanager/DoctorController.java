@@ -680,7 +680,7 @@ public class DoctorController implements Initializable {
         }
     }
 
-    public void switchToHistoryView(int patientID, String patientName){
+    public void switchToHistoryView(int patientId, String patientName){
         panePatientList.setVisible(false);
         paneExamination.setVisible(false);
         paneProfile.setVisible(false);
@@ -690,7 +690,7 @@ public class DoctorController implements Initializable {
         docPaneDetailContainer.setVisible(false);
         docTableDetailHistory.getItems().clear();
 
-        loadPatientHistoryForDoctor(patientID);
+        loadPatientHistoryForDoctor(patientId);
     }
 
     public void loadPatientHistoryForDoctor(int patientID){

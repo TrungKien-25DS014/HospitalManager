@@ -88,7 +88,7 @@ public class RegisterController implements Initializable {
         registrationMessageLabel.setText("");
         confirmPasswordLabel.setText("");
         if(!SecurityUtils.isValidEmail(emailField.getText())){
-            confirmPasswordLabel.setText("Invalid email format (e.g., name@domain.com).");
+            confirmPasswordLabel.setText("Invalid email format (e.g., Name123@domain.com).");
             return;
         }
         if (!checkEmpty()) {
