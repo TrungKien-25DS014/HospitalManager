@@ -36,7 +36,7 @@ public class LoginController implements Initializable {
             Image shieldImage = new Image(getClass().getResource("/images/logo-hospital.png").toString());
             brandingImageView.setImage(shieldImage);
         } catch (Exception e) {
-            System.err.println("Không thể tải ảnh logo.jpg: " + e.getMessage());
+            System.err.println("Cannot load logo image: " + e.getMessage());
         }
         ObservableList<String> departmentList = FXCollections.observableArrayList(
                 "doctor",
@@ -51,7 +51,7 @@ public class LoginController implements Initializable {
         if (!emailField.getText().isBlank() && !passwordField.getText().isBlank()) {
             validateLogin(event);
         } else {
-            loginMassageLabel1.setText("please enter emai or password");
+            loginMassageLabel1.setText("Please enter Email and Password.");
         }
     }
 
@@ -67,88 +67,102 @@ public class LoginController implements Initializable {
         try {
             connectionDB = connection.getConnection();
             String email = emailField.getText();
-            String password = passwordField.getText();
-            if (email.isEmpty() || password.isEmpty()) {
-                loginMassageLabel1.setText("Vui lòng nhập đầy đủ Tên đăng nhập và Mật khẩu.");
+            String rawPassword = passwordField.getText();
+
+            if (email.isEmpty() || rawPassword.isEmpty()) {
+                loginMassageLabel1.setText("Please enter both Email and Password.");
                 return;
             }
+            String hashedPassword = SecurityUtils.hashPassword(rawPassword);
+
+            if (inputType.getValue() == null) {
+                loginMassageLabel1.setText("Please select a role.");
+                return;
+            }
+
             switch ((String) inputType.getValue()){
                 case "patient":
                     final String patientLoginQuery = "SELECT id_user, typeInput FROM user_account WHERE email_user = ? AND password_user = ?";
                     try (PreparedStatement ps = connectionDB.prepareStatement(patientLoginQuery)) {
                         ps.setString(1, email);
-                        ps.setString(2, password);
+                        ps.setString(2, hashedPassword);
+
                         ResultSet rs = ps.executeQuery();
                         if (rs.next()) {
                             String role = rs.getString("typeInput");
                             if ("patient".equalsIgnoreCase(role)) {
                                 int idUser = rs.getInt("id_user");
                                 UserSession.setUserId(idUser);
-                                System.out.println("Login thành công với ID: " + idUser);
+                                System.out.println("Login successful with ID: " + idUser);
                                 patientUI();
                                 ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 
                             } else {
-                                loginMassageLabel1.setText("Tài khoản này không phải Bệnh nhân!");
+                                loginMassageLabel1.setText("This account is not a Patient account!");
                             }
                         } else {
-                            loginMassageLabel1.setText("Email hoặc Mật khẩu không đúng!");
+                            loginMassageLabel1.setText("Incorrect Email or Password!");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
+
                 case "doctor":
                     final String doctorLoginQuery = "SELECT id_doctor, typeInput FROM doctor_account WHERE email_doctor = ? AND password_doctor = ?";
                     try (PreparedStatement ps = connectionDB.prepareStatement(doctorLoginQuery)) {
                         ps.setString(1, email);
-                        ps.setString(2, password);
+                        ps.setString(2, hashedPassword);
+
                         ResultSet rs = ps.executeQuery();
                         if (rs.next()) {
                             String role = rs.getString("typeInput");
                             if ("doctor".equalsIgnoreCase(role)) {
                                 int idDoctor = rs.getInt("id_doctor");
                                 DoctorSession.setDoctorId(idDoctor);
-                                System.out.println("Login thành công với ID: " + idDoctor);
+                                System.out.println("Login successful with ID: " + idDoctor);
                                 doctorUI();
                                 ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 
                             } else {
-                                loginMassageLabel1.setText("Tài khoản này không phải Doctor!");
+                                loginMassageLabel1.setText("This account is not a Doctor account!");
                             }
                         } else {
-                            loginMassageLabel1.setText("Email hoặc Mật khẩu không đúng!");
+                            loginMassageLabel1.setText("Incorrect Email or Password!");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
+
                 case "receptionist":
                     final String receptionistLoginQuery = "SELECT typeInput FROM receptionist_account WHERE email_receptionist = ? AND password_receptionist = ?";
-                    if (checkAndProcessLogin(connectionDB, receptionistLoginQuery, email, password, "receptionist")) {
+                    if (checkAndProcessLogin(connectionDB, receptionistLoginQuery, email, rawPassword, "receptionist")) {
                         receptionistUI();
                         Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                         currentStage.close();
                     }else {
-                        loginMassageLabel1.setText("TK Or MK kh đúng");
+                        loginMassageLabel1.setText("Incorrect Email or Password.");
                     }
                     break;
+
                 case "admin":
                     final String adminLoginQuery = "SELECT typeInput FROM admin_account WHERE email_admin = ? AND password_admin = ?";
-                    if (checkAndProcessLogin(connectionDB, adminLoginQuery, email, password, "admin")) {
+                    if (checkAndProcessLogin(connectionDB, adminLoginQuery, email, rawPassword, "admin")) {
                         adminUI();
                         Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                         currentStage.close();
                     }else {
-                        loginMassageLabel1.setText("TK Or MK kh đúng");
+                        loginMassageLabel1.setText("Incorrect Email or Password.");
                     }
                     break;
+
                 default:
-                    loginMassageLabel1.setText("chức năng đăng nhập kh hợp lệ");
+                    loginMassageLabel1.setText("Invalid login type selected.");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            loginMassageLabel1.setText("LỖI KẾT NỐI/XỬ LÝ CƠ SỞ DỮ LIỆU");
+            loginMassageLabel1.setText("DATABASE CONNECTION ERROR");
         } finally {
             try {
                 if (connectionDB != null) {
@@ -163,7 +177,9 @@ public class LoginController implements Initializable {
     private boolean checkAndProcessLogin(Connection conn, String query, String email, String pass, String typeInput) throws SQLException {
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, email);
-            preparedStatement.setString(2, pass);
+            String hashedPassword = SecurityUtils.hashPassword(pass);
+            preparedStatement.setString(2, hashedPassword);
+
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return true;
@@ -233,4 +249,3 @@ public class LoginController implements Initializable {
         }
     }
 }
-

@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1100.0" style="-fx-background-color: #F4F6F8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hospitalmanager.AdminController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1100.0" style="-fx-background-color: #F4F6F8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hospitalmanager.AdminController">
     <children>
         <AnchorPane maxWidth="240.0" minWidth="240.0" prefWidth="240.0" style="-fx-background-color: linear-gradient(to bottom, #04165D, #0A2647);">
             <effect>
@@ -239,7 +239,7 @@
                                                         <Font name="Segoe UI Bold" size="24.0" />
                                                     </font>
                                                 </Label>
-                                                <Label fx:id="detailRoleHeaderLabel" text="Doctor / Patient View" textFill="#757575">
+                                                <Label fx:id="detailRoleHeaderLabel" text="User Information View" textFill="#757575">
                                                     <font>
                                                         <Font size="14.0" />
                                                     </font>
@@ -299,8 +299,8 @@
                                                                 </HBox>
                                                                 <HBox spacing="30.0">
                                                                     <children>
-                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Citizen ID (CCCD)" textFill="#757575" /><Label fx:id="detailCccdLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
-                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Ethnic Group" textFill="#757575" /><Label fx:id="detailEthnicLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="National ID / Passport" textFill="#757575" /><Label fx:id="detailCccdLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Ethnicity" textFill="#757575" /><Label fx:id="detailEthnicLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
                                                                         <Region HBox.hgrow="ALWAYS" /> </children>
                                                                 </HBox>
                                                             </children>
@@ -344,7 +344,7 @@
                                                                 <HBox spacing="30.0">
                                                                     <children>
                                                                         <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="License No. (Doctor)" textFill="#757575" /><Label fx:id="detailLicenseLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
-                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Insurance ID (Patient)" textFill="#757575" /><Label fx:id="detailInsuranceLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Health Insurance ID (Patient)" textFill="#757575" /><Label fx:id="detailInsuranceLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
                                                                         <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Allergies (Patient)" textFill="#757575" /><Label fx:id="detailAllergyLabel" text="..." textFill="#d32f2f"><font><Font name="System Bold" size="14.0" /></font></Label></VBox>
                                                                     </children>
                                                                 </HBox>

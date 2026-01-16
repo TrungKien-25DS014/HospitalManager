@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SecurityUtils {
-    private static final String EMAIL_PATIENT = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+    private static final String EMAIL_PATIENT = "^(?=.*[^@]*[0-9])(?=.*[^@]*[A-Z])[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
     private static final Pattern pattern = Pattern.compile(EMAIL_PATIENT);
 
     public static boolean isValidEmail(String email){
@@ -16,7 +16,7 @@ public class SecurityUtils {
         return matcher.matches();
     }
 
-    public static String HashPassword(String originalPassword){
+    public static String hashPassword(String originalPassword){
         try{
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodehash = digest.digest(originalPassword.getBytes(StandardCharsets.UTF_8));

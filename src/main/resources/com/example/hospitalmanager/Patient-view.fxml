@@ -57,7 +57,7 @@
                             </VBox.margin>
                         </Separator>
 
-                        <Button fx:id="informationButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#informationButtonOnAction" prefHeight="55.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-border-width: 0 0 0 4; -fx-border-color: transparent;" text="👤  Information" textFill="WHITE">
+                        <Button fx:id="informationButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#informationButtonOnAction" prefHeight="55.0" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-border-width: 0 0 0 4; -fx-border-color: transparent;" text="👤  My Profile" textFill="WHITE">
                             <font>
                                 <Font name="Segoe UI Semibold" size="18.0" />
                             </font>
@@ -121,21 +121,21 @@
                                             <effect>
                                                 <DropShadow color="#00000020" offsetY="5.0" />
                                             </effect>
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
+                                            <HBox.margin>
+                                                <Insets />
+                                            </HBox.margin>
                                         </ImageView>
 
                                         <Region HBox.hgrow="ALWAYS" />
                                         <VBox prefHeight="142.0" prefWidth="230.0" spacing="5.0">
-                                 <children>
-                                    <Region prefHeight="34.0" prefWidth="219.0" />
-                                                <Label fx:id="labelNameUser" alignment="CENTER_RIGHT" style="-fx-background-color: #FFFFFF; -fx-background-radius: 20; -fx-border-color: #B3E5FC; -fx-border-radius: 20; -fx-padding: 8 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);" text="Nguyen Van A - ID: 123" textFill="#0277BD">
+                                            <children>
+                                                <Region prefHeight="34.0" prefWidth="219.0" />
+                                                <Label fx:id="labelNameUser" alignment="CENTER_RIGHT" style="-fx-background-color: #FFFFFF; -fx-background-radius: 20; -fx-border-color: #B3E5FC; -fx-border-radius: 20; -fx-padding: 8 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);" text="Patient Name - ID" textFill="#0277BD">
                                                     <font>
                                                         <Font name="Segoe UI Bold" size="15.0" />
                                                     </font>
                                                 </Label>
-                                                <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateButtonOnAction" style="-fx-background-color: #04165D; -fx-text-fill: white; -fx-background-radius: 20; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(4, 22, 93, 0.3), 8, 0, 0, 3);" text="✎ Edit Profile">
+                                                <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateButtonOnAction" style="-fx-background-color: #04165D; -fx-text-fill: white; -fx-background-radius: 20; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(4, 22, 93, 0.3), 8, 0, 0, 3);" text="✎ Edit Info">
                                                     <font>
                                                         <Font name="Segoe UI Bold" size="13.0" />
                                                     </font>
@@ -143,7 +143,7 @@
                                                         <Insets bottom="8.0" left="20.0" right="20.0" top="8.0" />
                                                     </padding>
                                                 </Button>
-                                 </children>
+                                            </children>
                                         </VBox>
                                     </children>
                                     <VBox.margin>
@@ -188,13 +188,13 @@
                                                                     <children>
                                                                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                                                             <children>
-                                                                                <Label text="Citizen ID (CCCD)" textFill="#525f7f"><font><Font name="Segoe UI" size="14.0" /></font></Label>
+                                                                                <Label text="National ID / Passport" textFill="#525f7f"><font><Font name="Segoe UI" size="14.0" /></font></Label>
                                                                                 <TextField fx:id="CCCDField" prefHeight="45.0" style="-fx-background-color: #F8F9FE; -fx-background-radius: 8; -fx-text-fill: #32325d;" />
                                                                             </children>
                                                                         </VBox>
                                                                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                                                             <children>
-                                                                                <Label text="Ethnic Group" textFill="#525f7f"><font><Font name="Segoe UI" size="14.0" /></font></Label>
+                                                                                <Label text="Ethnicity" textFill="#525f7f"><font><Font name="Segoe UI" size="14.0" /></font></Label>
                                                                                 <TextField fx:id="ethnicGroupField" prefHeight="45.0" style="-fx-background-color: #F8F9FE; -fx-background-radius: 8; -fx-text-fill: #32325d;" />
                                                                             </children>
                                                                         </VBox>
@@ -250,7 +250,7 @@
                                                                     <children>
                                                                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                                                             <children>
-                                                                                <Label text="Health Insurance (BHYT)" textFill="#525f7f"><font><Font name="Segoe UI" size="14.0" /></font></Label>
+                                                                                <Label text="Health Insurance ID" textFill="#525f7f"><font><Font name="Segoe UI" size="14.0" /></font></Label>
                                                                                 <TextField fx:id="BHYTField" prefHeight="45.0" style="-fx-background-color: #F8F9FE; -fx-background-radius: 8; -fx-text-fill: #32325d;" />
                                                                             </children>
                                                                         </VBox>
@@ -481,7 +481,7 @@
 
                                                 <HBox alignment="CENTER_RIGHT">
                                                     <children>
-                                                        <Button mnemonicParsing="false" onAction="#informationButtonOnAction" style="-fx-background-color: transparent; -fx-border-color: #5e72e4; -fx-border-radius: 5; -fx-text-fill: #5e72e4; -fx-cursor: hand;" text="⬅ Back to Home">
+                                                        <Button mnemonicParsing="false" onAction="#informationButtonOnAction" style="-fx-background-color: transparent; -fx-border-color: #5e72e4; -fx-border-radius: 5; -fx-text-fill: #5e72e4; -fx-cursor: hand;" text="⬅ Back to Profile">
                                                             <font>
                                                                 <Font name="Segoe UI Bold" size="13.0" />
                                                             </font>

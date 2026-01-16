@@ -377,7 +377,6 @@ public class DoctorController implements Initializable {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        // --- UPDATED TO ENGLISH ---
         Button historyButton = new Button("View History");
         historyButton.setCursor(Cursor.HAND);
         historyButton.setUserData(ID);
@@ -432,7 +431,6 @@ public class DoctorController implements Initializable {
         listItems.clear();
         DiagnoseTextField.clear();
         symptomsTextField.clear();
-        // --- UPDATED TO STANDARD CURRENCY CODE ---
         lblTotalAmount.setText("0 VND");
 
         setPatientInfo(patientID);
@@ -570,7 +568,6 @@ public class DoctorController implements Initializable {
         for (PrescriptionItem i : listItems) {
             tempTotal += i.getTotalAmount();
         }
-        // --- UPDATED TO STANDARD CURRENCY CODE ---
         lblTotalAmount.setText(String.format("%,.0f VND", tempTotal));
         quantityTextField.clear();
         drugComboBox.setValue(null);
@@ -658,7 +655,6 @@ public class DoctorController implements Initializable {
                 listItems.clear();
                 symptomsTextField.clear();
                 DiagnoseTextField.clear();
-                // --- UPDATED TO STANDARD CURRENCY CODE ---
                 lblTotalAmount.setText("0 VND");
                 showAlert("Success","Payment and medical record saved successfully!", "success");
             } else {

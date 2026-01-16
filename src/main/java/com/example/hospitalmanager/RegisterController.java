@@ -15,7 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.*; // Import đầy đủ thư viện SQL
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
@@ -72,8 +72,8 @@ public class RegisterController implements Initializable {
         String verifyLogin = "SELECT COUNT(*) FROM user_account WHERE email_user = ?";
         try (Connection connectionDB = connection.getConnection();
              PreparedStatement preparedStatement = connectionDB.prepareStatement(verifyLogin)) {
-                preparedStatement.setString(1, emailField.getText());
-                ResultSet queryResult = preparedStatement.executeQuery();
+            preparedStatement.setString(1, emailField.getText());
+            ResultSet queryResult = preparedStatement.executeQuery();
 
             if (queryResult.next()) {
                 return queryResult.getInt(1) == 0;
@@ -88,7 +88,7 @@ public class RegisterController implements Initializable {
         registrationMessageLabel.setText("");
         confirmPasswordLabel.setText("");
         if(!SecurityUtils.isValidEmail(emailField.getText())){
-            confirmPasswordLabel.setText("Invalid email format (name@domain.com).");
+            confirmPasswordLabel.setText("Invalid email format (e.g., name@domain.com).");
             return;
         }
         if (!checkEmpty()) {
@@ -103,8 +103,10 @@ public class RegisterController implements Initializable {
             confirmPasswordLabel.setText("This email is already registered.");
             return;
         }
+
         String rawPassword = setPassword.getText();
-        String hashedPassword = SecurityUtils.HashPassword(rawPassword);
+        String hashedPassword = SecurityUtils.hashPassword(rawPassword);
+
         if(hashedPassword == null){
             confirmPasswordLabel.setText("Error processing password.");
             return;
@@ -140,7 +142,6 @@ public class RegisterController implements Initializable {
             psInfo.setString(3, lastNameField.getText());
             psInfo.executeUpdate();
             connectionDB.commit();
-
             registrationMessageLabel.setText("User has been registered successfully!");
 
         } catch (Exception ex) {

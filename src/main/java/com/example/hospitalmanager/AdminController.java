@@ -59,7 +59,7 @@ public class AdminController implements Initializable {
             Image shieldImage = new Image(getClass().getResource("/images/logo-hospital.png").toString());
             brandingImageView.setImage(shieldImage);
         } catch (Exception e) {
-            System.err.println("Không thể tải ảnh logo.jpg: " + e.getMessage());
+            System.err.println("Cannot load logo image: " + e.getMessage());
         }
         dashboardUI.setVisible(true);
         listDoctorUI.setVisible(false);
@@ -93,6 +93,7 @@ public class AdminController implements Initializable {
                 listDoctorUI.setVisible(false);
                 dashboardUI.setVisible(false);
                 paneDetail.setVisible(true);
+
                 detailNameLabel.setText(rs.getString("firstname_doctor") +" "+ rs.getString("lastname_doctor"));
                 detailIdLabel.setText("ID: " + rs.getInt("id_doctor"));
                 detailRoleLabel.setText("Doctor");
@@ -110,7 +111,6 @@ public class AdminController implements Initializable {
                 detailLicenseLabel.setText(rs.getString("licenseNo"));
                 detailInsuranceLabel.setText("N/A");
                 detailAllergyLabel.setText("N/A");
-
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -130,11 +130,12 @@ public class AdminController implements Initializable {
                 listDoctorUI.setVisible(false);
                 dashboardUI.setVisible(false);
                 paneDetail.setVisible(true);
+
                 detailNameLabel.setText(rs.getString("firstname_user") +" "+ rs.getString("lastname_user"));
                 detailIdLabel.setText("ID: " + rs.getInt("id_user"));
                 detailRoleLabel.setText("Patient");
                 detailGenderLabel.setText(rs.getString("gender"));
-                detailDobLabel.setText("birthday");
+                detailDobLabel.setText("Date of Birth");
                 detailNationalityLabel.setText("Viet Nam");
                 detailCccdLabel.setText(rs.getString("cccd"));
                 detailEthnicLabel.setText(rs.getString("ethnicGroup"));
@@ -147,7 +148,6 @@ public class AdminController implements Initializable {
                 detailLicenseLabel.setText("N/A");
                 detailInsuranceLabel.setText(rs.getString("BHYT"));
                 detailAllergyLabel.setText(rs.getString("allergy"));
-
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -296,26 +296,6 @@ public class AdminController implements Initializable {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        String btnNormalStyle =
-                "-fx-background-color: transparent;" +
-                        "-fx-text-fill: " + COLOR_NAVY + ";" +
-                        "-fx-border-color: " + COLOR_NAVY + ";" +
-                        "-fx-border-radius: 20;" +
-                        "-fx-background-radius: 20;" +
-                        "-fx-border-width: 1.5;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-font-size: 12px;";
-
-        String btnHoverStyle =
-                "-fx-background-color: " + COLOR_NAVY + ";" +
-                        "-fx-text-fill: " + COLOR_WHITE + ";" +
-                        "-fx-border-color: " + COLOR_NAVY + ";" +
-                        "-fx-border-radius: 20;" +
-                        "-fx-background-radius: 20;" +
-                        "-fx-border-width: 1.5;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-font-size: 12px;";
-
         userCard.getChildren().addAll(textContainer, spacer);
 
         HBox outerContainer = new HBox(userCard);
@@ -333,6 +313,8 @@ public class AdminController implements Initializable {
 
     private void loadMonthlyData(int year) {
         monthlyChart.getData().clear();
+        monthlyChart.setAnimated(false);
+
         DataBaseConnection connection = new DataBaseConnection();
         Connection connectionDB = connection.getConnection();
 
@@ -341,7 +323,9 @@ public class AdminController implements Initializable {
         for (int i = 1; i <= 12; i++) {
             dataMapMonth.put(i, 0.0);
         }
-        seriesMonth.setName("Revenue 2025");
+
+        seriesMonth.setName("Revenue " + year);
+
         String monthSql = "SELECT MONTH(visitDate) as thang, sum(total_amount) as totalMonth FROM medical_records WHERE YEAR(visitDate) = ? GROUP BY MONTH(visitDate) ORDER BY thang ASC";
         try{
             PreparedStatement psMonth = connectionDB.prepareStatement(monthSql);
@@ -355,18 +339,21 @@ public class AdminController implements Initializable {
                 }
             }
             for(Map.Entry<Integer, Double> entry: dataMapMonth.entrySet()){
-                String yearString = String.valueOf(entry.getKey());
+                String monthName = getMonthName(entry.getKey());
                 Number revenue = entry.getValue();
-                seriesMonth.getData().add(new XYChart.Data<>(yearString, revenue));
+                seriesMonth.getData().add(new XYChart.Data<>(monthName, revenue));
             }
             monthlyChart.getData().add(seriesMonth);
             psMonth.close();
+            connectionDB.close();
         }catch(Exception e){
             e.printStackTrace();
         }
     }
 
     private void loadYearlyData(){
+        yearlyChart.getData().clear();
+
         DataBaseConnection connection = new DataBaseConnection();
         Connection connectionDB = connection.getConnection();
 
@@ -376,6 +363,7 @@ public class AdminController implements Initializable {
             dataMap.put(i, 0.0);
         }
         seriesYear.setName("2025-2030");
+
         String YearSql = "SELECT YEAR(visitDate) as nam, sum(total_amount) as totalYear FROM medical_records WHERE YEAR(visitDate) BETWEEN 2025 AND 2030 GROUP BY YEAR(visitDate) ORDER BY nam ASC";
         try{
             PreparedStatement psYear = connectionDB.prepareStatement(YearSql);
@@ -412,4 +400,12 @@ public class AdminController implements Initializable {
         }
     }
 
+    private String getMonthName(int month) {
+        String[] monthNames = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        if (month >= 1 && month <= 12) {
+            return monthNames[month - 1];
+        }
+        return String.valueOf(month);
+    }
 }

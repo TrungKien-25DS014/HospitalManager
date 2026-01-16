@@ -18,7 +18,7 @@ public class HelloApplication extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_FILE));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root, 900, 600);
-            primaryStage.setTitle("Hệ Thống Quản Lý Bệnh Viện");
+            primaryStage.setTitle("management hospital");
             primaryStage.setScene(scene);
             primaryStage.setResizable(true);
             primaryStage.show();
