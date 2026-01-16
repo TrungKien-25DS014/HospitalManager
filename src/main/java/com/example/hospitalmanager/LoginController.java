@@ -135,25 +135,20 @@ public class LoginController implements Initializable {
                     }
                     break;
 
-                case "receptionist":
-                    final String receptionistLoginQuery = "SELECT typeInput FROM receptionist_account WHERE email_receptionist = ? AND password_receptionist = ?";
-                    if (checkAndProcessLogin(connectionDB, receptionistLoginQuery, email, rawPassword, "receptionist")) {
-                        receptionistUI();
-                        Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                        currentStage.close();
-                    }else {
-                        loginMassageLabel1.setText("Incorrect Email or Password.");
-                    }
-                    break;
-
                 case "admin":
-                    final String adminLoginQuery = "SELECT typeInput FROM admin_account WHERE email_admin = ? AND password_admin = ?";
-                    if (checkAndProcessLogin(connectionDB, adminLoginQuery, email, rawPassword, "admin")) {
-                        adminUI();
-                        Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                        currentStage.close();
-                    }else {
-                        loginMassageLabel1.setText("Incorrect Email or Password.");
+                    final String sql = "SELECT typeInput FROM admin_account WHERE email_admin = ? AND password_admin = ?";
+                    try(PreparedStatement ps = connectionDB.prepareStatement(sql)){
+                        ps.setString(1,email);
+                        ps.setString(2, hashedPassword);
+
+                        ResultSet rs = ps.executeQuery();
+                        if(rs.next()){
+                            String role = rs.getString("typeInput");
+                            if("admin".equalsIgnoreCase(role)){
+                                adminUI();
+                                ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+                            }else loginMassageLabel1.setText("This account is not a Admin account!");
+                        }else loginMassageLabel1.setText("Incorrect Email or Password.");
                     }
                     break;
 
@@ -172,21 +167,6 @@ public class LoginController implements Initializable {
                 e.printStackTrace();
             }
         }
-    }
-
-    private boolean checkAndProcessLogin(Connection conn, String query, String email, String pass, String typeInput) throws SQLException {
-        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
-            preparedStatement.setString(1, email);
-            String hashedPassword = SecurityUtils.hashPassword(pass);
-            preparedStatement.setString(2, hashedPassword);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     public void createAccountFrom() {
