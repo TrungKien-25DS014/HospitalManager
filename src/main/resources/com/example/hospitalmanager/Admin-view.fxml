@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1100.0" style="-fx-background-color: #F4F6F8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hospitalmanager.AdminController">
+    <children>
+        <AnchorPane maxWidth="240.0" minWidth="240.0" prefWidth="240.0" style="-fx-background-color: linear-gradient(to bottom, #04165D, #0A2647);">
+            <effect>
+                <DropShadow color="#00000040" radius="10.0" width="20.0" />
+            </effect>
+            <children>
+                <VBox alignment="TOP_CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <VBox alignment="CENTER" spacing="10.0">
+                            <children>
+                                <ImageView fx:id="brandingImageView" fitHeight="90.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../images/logo-hospital.png" />
+                                    </image>
+                                    <effect>
+                                        <DropShadow color="#00000033" offsetY="3.0" />
+                                    </effect>
+                                </ImageView>
+                                <Label text="ADMIN PORTAL" textFill="WHITE">
+                                    <font>
+                                        <Font name="Segoe UI Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="20.0" top="30.0" />
+                            </VBox.margin>
+                        </VBox>
+
+                        <Separator opacity="0.2" prefWidth="200.0">
+                            <VBox.margin>
+                                <Insets bottom="10.0" left="20.0" right="20.0" />
+                            </VBox.margin>
+                        </Separator>
+
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#dashboardButtonOnAction" prefHeight="55.0" style="-fx-background-color: transparent; -fx-alignment: BASELINE_LEFT; -fx-cursor: hand;" text="📊  Dashboard" textFill="WHITE">
+                            <font>
+                                <Font name="Segoe UI Semibold" size="15.0" />
+                            </font>
+                            <padding>
+                                <Insets left="30.0" />
+                            </padding>
+                        </Button>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#listDoctorButtonOnAction" prefHeight="55.0" style="-fx-background-color: transparent; -fx-alignment: BASELINE_LEFT; -fx-cursor: hand;" text="👨‍⚕️  Manage Doctors" textFill="WHITE">
+                            <font>
+                                <Font name="Segoe UI Semibold" size="15.0" />
+                            </font>
+                            <padding>
+                                <Insets left="30.0" />
+                            </padding>
+                        </Button>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#listPatientButtonOnAction" prefHeight="55.0" style="-fx-background-color: transparent; -fx-alignment: BASELINE_LEFT; -fx-cursor: hand;" text="🤕  Manage Patients" textFill="WHITE">
+                            <font>
+                                <Font name="Segoe UI Semibold" size="15.0" />
+                            </font>
+                            <padding>
+                                <Insets left="30.0" />
+                            </padding>
+                        </Button>
+
+                        <VBox alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
+                            <children>
+                                <Button mnemonicParsing="false" onAction="#closeButtonOnAction" style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 30; -fx-cursor: hand;" text="🚪 Log Out" textFill="WHITE">
+                                    <VBox.margin>
+                                        <Insets bottom="30.0" />
+                                    </VBox.margin>
+                                    <font>
+                                        <Font name="Segoe UI Bold" size="13.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
+                                    </padding>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+
+        <AnchorPane prefHeight="600.0" prefWidth="680.0" style="-fx-background-color: #F8F8F8;" HBox.hgrow="ALWAYS">
+            <children>
+
+                <AnchorPane fx:id="dashboardUI" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" style="-fx-background-color: linear-gradient(to right, #E6F6FF, #F8FAFC); -fx-background-radius: 0 0 20 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 2);">
+                                    <padding>
+                                        <Insets bottom="20.0" left="40.0" right="40.0" top="30.0" />
+                                    </padding>
+                                    <children>
+                                        <VBox spacing="5.0">
+                                            <children>
+                                                <Label fx:id="label" text="Welcome Admin" textFill="#04165d">
+                                                    <font>
+                                                        <Font name="Segoe UI Bold" size="24.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+
+                                <VBox spacing="20.0" VBox.vgrow="ALWAYS">
+                                    <padding>
+                                        <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+                                    </padding>
+                                    <children>
+                                        <AnchorPane style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 3);" VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <BarChart fx:id="monthlyChart" title="Monthly Revenue" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                                    <xAxis>
+                                                        <CategoryAxis label="Month" side="BOTTOM" />
+                                                    </xAxis>
+                                                    <yAxis>
+                                                        <NumberAxis label="Revenue" side="LEFT" />
+                                                    </yAxis>
+                                                </BarChart>
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 3);" VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <BarChart fx:id="yearlyChart" title="Yearly Revenue" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                                    <xAxis>
+                                                        <CategoryAxis label="Year" side="BOTTOM" />
+                                                    </xAxis>
+                                                    <yAxis>
+                                                        <NumberAxis label="Revenue" side="LEFT" />
+                                                    </yAxis>
+                                                </BarChart>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+                <AnchorPane fx:id="listDoctorUI" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <VBox spacing="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" style="-fx-background-color: linear-gradient(to right, #E6F6FF, #F8FAFC); -fx-background-radius: 0 0 20 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 2);">
+                                    <padding>
+                                        <Insets bottom="20.0" left="40.0" right="40.0" top="30.0" />
+                                    </padding>
+                                    <children>
+                                        <Label text="MANAGE DOCTORS" textFill="#04165d">
+                                            <font>
+                                                <Font name="Segoe UI Bold" size="24.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                                    <content>
+                                        <VBox fx:id="VBoxListDoctor" spacing="10.0" style="-fx-background-color: #F4F6F8;">
+                                            <padding>
+                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                            </padding>
+                                        </VBox>
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+                <AnchorPane fx:id="listPatientUI" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <VBox spacing="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" style="-fx-background-color: linear-gradient(to right, #E6F6FF, #F8FAFC); -fx-background-radius: 0 0 20 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 2);">
+                                    <padding>
+                                        <Insets bottom="20.0" left="40.0" right="40.0" top="30.0" />
+                                    </padding>
+                                    <children>
+                                        <Label text="MANAGE PATIENTS" textFill="#04165d">
+                                            <font>
+                                                <Font name="Segoe UI Bold" size="24.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                                    <content>
+                                        <VBox fx:id="VBoxlistPatient" spacing="10.0" style="-fx-background-color: #F4F6F8;">
+                                            <padding>
+                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                            </padding>
+                                        </VBox>
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+                <AnchorPane fx:id="paneDetail" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <VBox spacing="0" style="-fx-background-color: #F4F6F8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: linear-gradient(to right, #E6F6FF, #F8FAFC); -fx-background-radius: 0 0 20 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 2);">
+                                    <padding>
+                                        <Insets bottom="20.0" left="40.0" right="40.0" top="30.0" />
+                                    </padding>
+                                    <children>
+                                        <Button fx:id="btnBackFromDetail" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-cursor: hand;" text="⬅ Back" textFill="#04165d">
+                                            <font>
+                                                <Font name="Segoe UI Bold" size="14.0" />
+                                            </font>
+                                        </Button>
+                                        <VBox>
+                                            <children>
+                                                <Label text="USER PROFILE DETAILS" textFill="#04165d">
+                                                    <font>
+                                                        <Font name="Segoe UI Bold" size="24.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label fx:id="detailRoleHeaderLabel" text="Doctor / Patient View" textFill="#757575">
+                                                    <font>
+                                                        <Font size="14.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+
+                                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                                    <content>
+                                        <VBox spacing="20.0" style="-fx-background-color: #F4F6F8;">
+                                            <padding>
+                                                <Insets bottom="30.0" left="40.0" right="40.0" top="20.0" />
+                                            </padding>
+                                            <children>
+
+                                                <AnchorPane style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 3);">
+                                                    <children>
+                                                        <HBox alignment="CENTER_LEFT" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="20.0">
+                                                            <children>
+                                                                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@../../../images/avata-user.jpg" />
+                                                                    </image>
+                                                                </ImageView>
+                                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                                    <children>
+                                                                        <Label fx:id="detailNameLabel" text="Full Name Here" textFill="#04165d">
+                                                                            <font><Font name="Segoe UI Bold" size="20.0" /></font>
+                                                                        </Label>
+                                                                        <Label fx:id="detailIdLabel" text="ID: 12345" textFill="#757575">
+                                                                            <font><Font size="14.0" /></font>
+                                                                        </Label>
+                                                                        <Label fx:id="detailRoleLabel" style="-fx-background-color: #E6F6FF; -fx-background-radius: 10; -fx-padding: 3 10;" text="Role" textFill="#0277BD">
+                                                                            <font><Font name="System Bold" size="12.0" /></font>
+                                                                        </Label>
+                                                                    </children>
+                                                                </VBox>
+                                                            </children>
+                                                        </HBox>
+                                                    </children>
+                                                </AnchorPane>
+
+                                                <AnchorPane style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 3);">
+                                                    <children>
+                                                        <VBox spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="20.0">
+                                                            <children>
+                                                                <Label text="👤 PERSONAL DETAILS" textFill="#04165d"><font><Font name="Segoe UI Bold" size="14.0" /></font></Label>
+                                                                <Separator />
+                                                                <HBox spacing="30.0">
+                                                                    <children>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Gender" textFill="#757575" /><Label fx:id="detailGenderLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Date of Birth" textFill="#757575" /><Label fx:id="detailDobLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Nationality" textFill="#757575" /><Label fx:id="detailNationalityLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox spacing="30.0">
+                                                                    <children>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Citizen ID (CCCD)" textFill="#757575" /><Label fx:id="detailCccdLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Ethnic Group" textFill="#757575" /><Label fx:id="detailEthnicLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                        <Region HBox.hgrow="ALWAYS" /> </children>
+                                                                </HBox>
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </AnchorPane>
+
+                                                <AnchorPane style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 3);">
+                                                    <children>
+                                                        <VBox spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="20.0">
+                                                            <children>
+                                                                <Label text="📞 CONTACT INFO" textFill="#04165d"><font><Font name="Segoe UI Bold" size="14.0" /></font></Label>
+                                                                <Separator />
+                                                                <HBox spacing="30.0">
+                                                                    <children>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Phone Number" textFill="#757575" /><Label fx:id="detailPhoneLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Email" textFill="#757575" /><Label fx:id="detailEmailLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Address" textFill="#757575" /><Label fx:id="detailAddressLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                    </children>
+                                                                </HBox>
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </AnchorPane>
+
+                                                <AnchorPane style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 3);">
+                                                    <children>
+                                                        <VBox spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="20.0">
+                                                            <children>
+                                                                <Label text="🏥 PROFESSIONAL / MEDICAL DETAILS" textFill="#04165d"><font><Font name="Segoe UI Bold" size="14.0" /></font></Label>
+                                                                <Separator />
+
+                                                                <HBox spacing="30.0">
+                                                                    <children>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Specialty (Doctor)" textFill="#757575" /><Label fx:id="detailSpecialtyLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Rank (Doctor)" textFill="#757575" /><Label fx:id="detailRankLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Department (Doctor)" textFill="#757575" /><Label fx:id="detailDepartmentLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                    </children>
+                                                                </HBox>
+
+                                                                <HBox spacing="30.0">
+                                                                    <children>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="License No. (Doctor)" textFill="#757575" /><Label fx:id="detailLicenseLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Insurance ID (Patient)" textFill="#757575" /><Label fx:id="detailInsuranceLabel" text="..." textFill="#333333"><font><Font size="14.0" /></font></Label></VBox>
+                                                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS"><Label text="Allergies (Patient)" textFill="#757575" /><Label fx:id="detailAllergyLabel" text="..." textFill="#d32f2f"><font><Font name="System Bold" size="14.0" /></font></Label></VBox>
+                                                                    </children>
+                                                                </HBox>
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </AnchorPane>
+
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+            </children>
+        </AnchorPane>
+    </children>
+</HBox>
