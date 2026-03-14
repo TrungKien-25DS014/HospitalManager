@@ -306,11 +306,6 @@
                                                         <Font name="Segoe UI Bold" size="24.0" />
                                                     </font>
                                                 </Label>
-                                                <Label text="Schedule a new visit with our doctors" textFill="#757575">
-                                                    <font>
-                                                        <Font size="14.0" />
-                                                    </font>
-                                                </Label>
                                             </children>
                                         </VBox>
                                     </children>
@@ -404,11 +399,6 @@
                                                 <Label text="MEDICAL HISTORY" textFill="#04165d">
                                                     <font>
                                                         <Font name="Segoe UI Bold" size="24.0" />
-                                                    </font>
-                                                </Label>
-                                                <Label text="Overview of your past examinations" textFill="#757575">
-                                                    <font>
-                                                        <Font size="14.0" />
                                                     </font>
                                                 </Label>
                                             </children>

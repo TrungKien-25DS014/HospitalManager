@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1100.0" style="-fx-background-color: #F4F6F8;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hospitalmanager.AdminController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1100.0" style="-fx-background-color: #F4F6F8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hospitalmanager.AdminController">
     <children>
         <AnchorPane maxWidth="240.0" minWidth="240.0" prefWidth="240.0" style="-fx-background-color: linear-gradient(to bottom, #04165D, #0A2647);">
             <effect>
@@ -101,7 +101,7 @@
         <AnchorPane prefHeight="600.0" prefWidth="680.0" style="-fx-background-color: #F8F8F8;" HBox.hgrow="ALWAYS">
             <children>
 
-                <AnchorPane fx:id="dashboardUI" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <AnchorPane fx:id="dashboardUI" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
@@ -218,7 +218,7 @@
                     </children>
                 </AnchorPane>
 
-                <AnchorPane fx:id="paneDetail" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <AnchorPane fx:id="paneDetail" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <VBox spacing="0" style="-fx-background-color: #F4F6F8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
@@ -237,11 +237,6 @@
                                                 <Label text="USER PROFILE DETAILS" textFill="#04165d">
                                                     <font>
                                                         <Font name="Segoe UI Bold" size="24.0" />
-                                                    </font>
-                                                </Label>
-                                                <Label fx:id="detailRoleHeaderLabel" text="User Information View" textFill="#757575">
-                                                    <font>
-                                                        <Font size="14.0" />
                                                     </font>
                                                 </Label>
                                             </children>

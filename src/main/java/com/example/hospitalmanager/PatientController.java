@@ -334,7 +334,7 @@ public class PatientController implements Initializable {
         String reason = reasonTextArea.getText();
 
         if(isSlotBooked(doctorID, date, timeString)){
-            showAlert("Warning", "This slot is booked or too close to another appointment (<15m). Please select another time!", "error");
+            showAlert("Warning", "This slot is booked or too close to another appointment (<30m). Please select another time!", "error");
             return;
         }
 

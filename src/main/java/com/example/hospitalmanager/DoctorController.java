@@ -552,6 +552,7 @@ public class DoctorController implements Initializable {
             quantity = Integer.parseInt(quantityTextField.getText());
             if (quantity <= 0) return;
         } catch (NumberFormatException e) {
+            showAlert("Error", "Please input number!", "error");
             return;
         }
 
@@ -1042,4 +1043,15 @@ public class DoctorController implements Initializable {
         globalAlertContainer.setVisible(false);
         globalAlertContainer.setMouseTransparent(true);
     }
+
+    public void onButton(ActionEvent event){
+        paneAppointment.setVisible(false);
+        paneExamination.setVisible(false);
+        paneHistory.setVisible(false);
+        paneProfile.setVisible(false);
+        panePatientList.setVisible(true);
+        docPaneDetailContainer.setVisible(false);
+    }
+
+
 }
